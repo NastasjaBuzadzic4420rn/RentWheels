@@ -19,6 +19,7 @@ public class Activation {
     private String username;
     private String password;
     private String activationKey;
+    private String role;
     private static final TypeOfNotification type = TypeOfNotification.Activation;
 
     public Long getId() {
@@ -75,5 +76,13 @@ public class Activation {
 
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

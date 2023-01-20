@@ -21,7 +21,7 @@ public class ReservationController {
 
     private ReservationService reservationService;
 
-    public ReservationController(@Lazy ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 

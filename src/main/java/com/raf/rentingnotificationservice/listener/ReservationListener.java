@@ -24,7 +24,6 @@ public class ReservationListener {
     @JmsListener(destination = "${destination.reservation}", concurrency = "5-10")
     public void sendReservationEmail(Message message) throws JMSException {
         ReservationDto reservationDto = messageHelper.getMessage(message, ReservationDto.class);
-        System.out.println("Notifikacija primljena " + reservationDto);
         reservationService.add(reservationDto);
     }
 

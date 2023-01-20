@@ -16,12 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReservationServiceImpl implements ReservationService{
 
-    private ReservationService reservationService;
     private ReservationRepository reservationRepository;
     private ReservationMapper reservationMapper;
 
-    public ReservationServiceImpl(@Lazy ReservationService reservationService, @Lazy ReservationRepository reservationRepository,@Lazy ReservationMapper reservationMapper) {
-        this.reservationService = reservationService;
+    public ReservationServiceImpl(ReservationRepository reservationRepository, ReservationMapper reservationMapper) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
     }

@@ -86,4 +86,5 @@ public class ReservationDto {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
 }

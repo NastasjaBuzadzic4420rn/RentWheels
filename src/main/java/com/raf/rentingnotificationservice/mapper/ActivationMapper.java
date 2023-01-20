@@ -15,6 +15,7 @@ public class ActivationMapper {
         activation.setPassword(activationDto.getPassword());
         activation.setUsername(activationDto.getUsername());
         activation.setActivationKey(activationDto.getActivationKey());
+        activation.setRole(activation.getRole());
         return activation;
     }
 

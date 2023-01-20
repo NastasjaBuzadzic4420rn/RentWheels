@@ -9,6 +9,7 @@ public class ActivationDto {
     private String username;
     private String password;
     private String activationKey;
+    private String role;
 
     public String getEmail() {
         return email;
@@ -56,5 +57,13 @@ public class ActivationDto {
 
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
