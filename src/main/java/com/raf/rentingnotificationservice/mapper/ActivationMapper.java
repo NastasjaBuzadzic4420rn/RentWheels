@@ -7,15 +7,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ActivationMapper {
 
-    public ActivationDto activationToActivationDto(Activation activation){
-        ActivationDto activationDto = new ActivationDto();
-        activationDto.setId(activation.getId());
-        activationDto.setEmail(activationDto.getEmail());
-        activationDto.setFirstName(activation.getFirstName());
-        activationDto.setLastName(activation.getLastName());
-        activationDto.setPassword(activationDto.getPassword());
-        activationDto.setUsername(activation.getUsername());
-        activationDto.setActivationKey(activation.getActivationKey());
-        return activationDto;
+    public Activation activationDtoToActivation(ActivationDto activationDto){
+        Activation activation = new Activation();
+        activation.setEmail(activationDto.getEmail());
+        activation.setFirstName(activationDto.getFirstName());
+        activation.setLastName(activationDto.getLastName());
+        activation.setPassword(activationDto.getPassword());
+        activation.setUsername(activationDto.getUsername());
+        activation.setActivationKey(activationDto.getActivationKey());
+        return activation;
     }
+
+
 }

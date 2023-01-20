@@ -1,6 +1,6 @@
 package com.raf.rentingnotificationservice.service.impl;
 
-import com.raf.rentingnotificationservice.dto.ActivationCreateDto;
+import com.raf.rentingnotificationservice.domain.Activation;
 import com.raf.rentingnotificationservice.dto.ActivationDto;
 import com.raf.rentingnotificationservice.mapper.ActivationMapper;
 import com.raf.rentingnotificationservice.repository.ActivationRepository;
@@ -20,7 +20,7 @@ public class ActivationServiceImpl implements ActivationService {
     private ActivationMapper activationMapper;
     private ActivationRepository activationRepository;
 
-    public ActivationServiceImpl(@Lazy ActivationService activationService,@Lazy  ActivationMapper activationMapper,@Lazy  ActivationRepository activationRepository) {
+    public ActivationServiceImpl(@Lazy ActivationService activationService,@Lazy ActivationMapper activationMapper,@Lazy ActivationRepository activationRepository) {
         this.activationService = activationService;
         this.activationMapper = activationMapper;
         this.activationRepository = activationRepository;
@@ -28,8 +28,9 @@ public class ActivationServiceImpl implements ActivationService {
 
 
     @Override
-    public ActivationDto add(ActivationCreateDto activationCreateDto) {
-        return null;
+    public void add(ActivationDto activationDto) {
+        Activation activation = activationMapper.activationDtoToActivation(activationDto);
+        activationRepository.save(activation);
     }
 
     @Override
@@ -37,8 +38,4 @@ public class ActivationServiceImpl implements ActivationService {
         return null;
     }
 
-    @Override
-    public ActivationDto edit(Long id, ActivationCreateDto activationCreateDto) {
-        return null;
-    }
 }

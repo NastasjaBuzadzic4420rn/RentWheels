@@ -1,6 +1,5 @@
 package com.raf.rentingnotificationservice.controller;
 
-import com.raf.rentingnotificationservice.dto.ActivationCreateDto;
 import com.raf.rentingnotificationservice.dto.ActivationDto;
 import com.raf.rentingnotificationservice.service.ActivationService;
 import org.springframework.context.annotation.Lazy;
@@ -28,15 +27,15 @@ public class ActivationController {
         return new ResponseEntity<>(activationService.findAll(pageable), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<ActivationDto> addNew(@RequestBody @Valid ActivationCreateDto activationCreateDto) {
-        return new ResponseEntity<>(activationService.add(activationCreateDto), HttpStatus.CREATED);
+//    @PostMapping
+    public void addNew(@RequestBody @Valid ActivationDto activationDto) {
+        activationService.add(activationDto);
     }
 
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<ActivationDto> editManager(@PathVariable("id") Long id,
-                                                     @RequestBody ActivationCreateDto activationCreateDto){
-        return new ResponseEntity<>(activationService.edit(id, activationCreateDto), HttpStatus.ACCEPTED);
-    }
+//    @PutMapping("/edit/{id}")
+//    public ResponseEntity<ActivationDto> editManager(@PathVariable("id") Long id,
+//                                                     @RequestBody ActivationCreateDto activationCreateDto){
+//        return new ResponseEntity<>(activationService.edit(id, activationCreateDto), HttpStatus.ACCEPTED);
+//    }
 }
