@@ -2,7 +2,6 @@ package com.raf.rentingnotificationservice.controller;
 
 import com.raf.rentingnotificationservice.dto.ActivationDto;
 import com.raf.rentingnotificationservice.service.ActivationService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class ActivationController {
 
     private ActivationService activationService;
 
-    public ActivationController(@Lazy ActivationService activationService) {
+    public ActivationController(ActivationService activationService) {
         this.activationService = activationService;
     }
 
