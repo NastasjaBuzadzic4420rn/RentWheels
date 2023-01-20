@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ReservationDto {
-
     private String firstName;
     private String lastName;
     private String company;

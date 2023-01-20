@@ -1,0 +1,40 @@
+package com.raf.rentingnotificationservice.listener;
+
+import com.raf.rentingnotificationservice.domain.Notification;
+import com.raf.rentingnotificationservice.dto.ActivationDto;
+import com.raf.rentingnotificationservice.listener.helper.MessageHelper;
+import com.raf.rentingnotificationservice.repository.NotificationRepository;
+import com.raf.rentingnotificationservice.service.NotificationService;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+
+@Component
+public class NotificationListener {
+
+    private MessageHelper messageHelper;
+    private NotificationService notificationService;
+    private NotificationRepository notificationRepository;
+
+    public NotificationListener(MessageHelper messageHelper, NotificationService notificationService, NotificationRepository notificationRepository) {
+        this.messageHelper = messageHelper;
+        this.notificationService = notificationService;
+        this.notificationRepository = notificationRepository;
+    }
+
+    @JmsListener(destination = "${destination.activation}", concurrency = "5-10")
+    public void sendActivationEmail(Message message) throws JMSException{
+        ActivationDto activationDto = messageHelper.getMessage(message, ActivationDto.class);
+        System.out.println(activationDto);
+//        notificationService.add(activationDto)
+        Notification notification = notificationRepository.findByType("activation").get();
+
+        notificationService.sendMail(activationDto, "activation", notification.getText());
+    }
+
+
+}
+
+

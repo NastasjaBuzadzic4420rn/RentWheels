@@ -1,6 +1,5 @@
 package com.raf.rentingnotificationservice.dto;
 
-import com.raf.rentingnotificationservice.enums.TypeOfNotification;
 
 public class ActivationDto {
     private String email;
@@ -9,6 +8,7 @@ public class ActivationDto {
     private String username;
     private String password;
     private String activationKey;
+    private String link;
 
     public String getEmail() {
         return email;
@@ -56,5 +56,13 @@ public class ActivationDto {
 
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }
