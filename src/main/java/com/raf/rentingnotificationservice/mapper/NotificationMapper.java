@@ -8,11 +8,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationMapper {
 
-    public Notification notificationDtoToNotification(NotificationCreateDto dto){
+    public Notification notificationCreateDtoToNotification(NotificationCreateDto dto){
         Notification notification = new Notification();
         notification.setText(dto.getText());
         notification.setParameters(dto.getParameters());
         notification.setType(dto.getType());
         return notification;
+    }
+
+    public  NotificationDto notificationToNotificationDto(Notification notification){
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setId(notification.getId());
+        notificationDto.setText(notification.getText());
+        notificationDto.setType(notification.getType());
+        notificationDto.setParameters(notification.getParameters());
+        return notificationDto;
     }
 }

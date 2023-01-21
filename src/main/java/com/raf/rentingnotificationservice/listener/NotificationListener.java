@@ -1,9 +1,8 @@
 package com.raf.rentingnotificationservice.listener;
 
-import com.raf.rentingnotificationservice.domain.Notification;
-import com.raf.rentingnotificationservice.dto.ActivationDto;
+import com.raf.rentingnotificationservice.dto.HistoryCreateDto;
+import com.raf.rentingnotificationservice.dto.ReceivedNotifDto;
 import com.raf.rentingnotificationservice.listener.helper.MessageHelper;
-import com.raf.rentingnotificationservice.repository.NotificationRepository;
 import com.raf.rentingnotificationservice.service.NotificationService;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -16,22 +15,25 @@ public class NotificationListener {
 
     private MessageHelper messageHelper;
     private NotificationService notificationService;
-    private NotificationRepository notificationRepository;
 
-    public NotificationListener(MessageHelper messageHelper, NotificationService notificationService, NotificationRepository notificationRepository) {
+    public NotificationListener(MessageHelper messageHelper, NotificationService notificationService) {
         this.messageHelper = messageHelper;
         this.notificationService = notificationService;
-        this.notificationRepository = notificationRepository;
     }
 
-    @JmsListener(destination = "${destination.activation}", concurrency = "5-10")
-    public void sendActivationEmail(Message message) throws JMSException{
-        ActivationDto activationDto = messageHelper.getMessage(message, ActivationDto.class);
-        System.out.println(activationDto);
-//        notificationService.add(activationDto)
-        Notification notification = notificationRepository.findByType("activation").get();
+    @JmsListener(destination = "${destination.notification}", concurrency = "5-10")
+    public void sendNotificationEmail(Message message) throws JMSException{
+        ReceivedNotifDto receivedNotifDto = messageHelper.getMessage(message, ReceivedNotifDto.class);
 
-        notificationService.sendMail(activationDto, "activation", notification.getText());
+
+//        ActivationDto activationDto = messageHelper.getMessage(message, ActivationDto.class);
+//        System.out.println(activationDto);
+//        notificationService.add(activationDto)
+//        Notification notification = notificationRepository.findByType("activation").get();
+
+
+        notificationService.sendMail(receivedNotifDto);
+
     }
 
 

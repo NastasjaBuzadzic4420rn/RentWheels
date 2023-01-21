@@ -10,6 +10,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+//    private String recever;
     private String parameters;
     private String text;
 
@@ -44,4 +45,12 @@ public class Notification {
     public void setText(String text) {
         this.text = text;
     }
+
+//    public String getRecever() {
+//        return recever;
+//    }
+//
+//    public void setRecever(String recever) {
+//        this.recever = recever;
+//    }
 }

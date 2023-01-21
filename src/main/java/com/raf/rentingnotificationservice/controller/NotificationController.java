@@ -28,10 +28,10 @@ public class NotificationController {
         notificationService.add(notificationCreateDto);
     }
 
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<NotificationDto> edit(@PathVariable("id") Long id, @RequestBody NotificationCreateDto notificationCreateDto){
+        return new ResponseEntity<>(notificationService.edit(id, notificationCreateDto), HttpStatus.ACCEPTED);
+    }
 
-//    @PutMapping("/edit/{id}")
-//    public ResponseEntity<NotificationDto> editManager(@PathVariable("id") Long id,
-//                                                       @RequestBody NotificationCreateDto activationCreateDto){
-//        return new ResponseEntity<>(notificationService.edit(id, activationCreateDto), HttpStatus.ACCEPTED);
-//    }
+
 }

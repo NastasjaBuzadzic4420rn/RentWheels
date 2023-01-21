@@ -1,10 +1,10 @@
 package com.raf.rentingnotificationservice.dto;
 
-public class NotificationCreateDto {
+public class ReceivedNotifDto {
+
     private String type;
     private String parameters;
-    private String text;
-//    private String recever;
+    private String recever;
 
     public String getType() {
         return type;
@@ -22,19 +22,11 @@ public class NotificationCreateDto {
         this.parameters = parameters;
     }
 
-    public String getText() {
-        return text;
+    public String getRecever() {
+        return recever;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setRecever(String recever) {
+        this.recever = recever;
     }
-
-//    public String getRecever() {
-//        return recever;
-//    }
-//
-//    public void setRecever(String recever) {
-//        this.recever = recever;
-//    }
 }
