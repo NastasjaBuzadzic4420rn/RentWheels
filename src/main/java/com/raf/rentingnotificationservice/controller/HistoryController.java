@@ -2,6 +2,7 @@ package com.raf.rentingnotificationservice.controller;
 
 import com.raf.rentingnotificationservice.dto.HistoryCreateDto;
 import com.raf.rentingnotificationservice.dto.HistoryDto;
+import com.raf.rentingnotificationservice.security.CheckSecurity;
 import com.raf.rentingnotificationservice.service.HistoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,8 @@ public class HistoryController {
     private HistoryService historyService;
 
     @GetMapping
+    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<Page<HistoryDto>> getAll(Pageable pageable) {
-
         return new ResponseEntity<>(historyService.findAll(pageable), HttpStatus.OK);
     }
 

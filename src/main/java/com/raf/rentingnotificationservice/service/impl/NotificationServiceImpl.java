@@ -64,7 +64,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendMail(ReceivedNotifDto receivedNotifDto) {
-
+        System.out.println(receivedNotifDto.getParameters());
         List<String> args = List.of(receivedNotifDto.getParameters().split(", "));
 
         Notification notification = notificationRepository.findByType(receivedNotifDto.getType()).get();
