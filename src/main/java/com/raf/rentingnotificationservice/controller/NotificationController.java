@@ -19,20 +19,20 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping
-    @CheckSecurity(roles = {"admin"})
+//    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<Page<NotificationDto>> getAll(Pageable pageable) {
 
         return new ResponseEntity<>(notificationService.findAll(pageable), HttpStatus.OK);
     }
 
     @PostMapping
-    @CheckSecurity(roles = {"admin"})
+//    @CheckSecurity(roles = {"admin"})
     public void addNew(@RequestBody @Valid NotificationCreateDto notificationCreateDto) {
         notificationService.add(notificationCreateDto);
     }
 
     @PutMapping("/edit/{id}")
-    @CheckSecurity(roles = {"admin"})
+//    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<NotificationDto> edit(@PathVariable("id") Long id, @RequestBody NotificationCreateDto notificationCreateDto){
         return new ResponseEntity<>(notificationService.edit(id, notificationCreateDto), HttpStatus.ACCEPTED);
     }

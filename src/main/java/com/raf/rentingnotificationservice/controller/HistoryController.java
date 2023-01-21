@@ -19,7 +19,7 @@ public class HistoryController {
     private HistoryService historyService;
 
     @GetMapping
-    @CheckSecurity(roles = {"admin"})
+//    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<Page<HistoryDto>> getAll(Pageable pageable) {
         return new ResponseEntity<>(historyService.findAll(pageable), HttpStatus.OK);
     }
