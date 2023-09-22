@@ -9,7 +9,7 @@ public interface HistoryService {
 
     Page<HistoryDto> findAll(Pageable pageable);
 
-    void add(HistoryCreateDto historyCreateDto);
+    HistoryDto add(HistoryCreateDto historyCreateDto);
 
     HistoryDto edit(Long id, HistoryCreateDto historyCreateDto);
 }

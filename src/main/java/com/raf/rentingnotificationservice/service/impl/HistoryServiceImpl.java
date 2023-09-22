@@ -26,10 +26,11 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public void add(HistoryCreateDto historyCreateDto) {
+    public HistoryDto add(HistoryCreateDto historyCreateDto) {
+        System.out.println(historyCreateDto.toString());
         History history = historyMapper.historyCreateDtoToHistory(historyCreateDto);
-        System.out.println("Ubacen history " + history);
         historyRepository.save(history);
+        return historyMapper.historyToHistoryDto(history);
     }
 
     @Override

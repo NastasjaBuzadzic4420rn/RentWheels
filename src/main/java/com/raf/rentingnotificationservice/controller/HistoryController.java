@@ -18,6 +18,10 @@ public class HistoryController {
 
     private HistoryService historyService;
 
+    public HistoryController(HistoryService historyService) {
+        this.historyService = historyService;
+    }
+
     @GetMapping
 //    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<Page<HistoryDto>> getAll(Pageable pageable) {
@@ -25,8 +29,8 @@ public class HistoryController {
     }
 
     @PostMapping
-    public void addNew(@RequestBody @Valid HistoryCreateDto historyCreateDto) {
-        historyService.add(historyCreateDto);
+    public ResponseEntity<HistoryDto> addNew(@RequestBody @Valid HistoryCreateDto historyCreateDto) {
+        return new ResponseEntity<>(historyService.add(historyCreateDto), HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/edit/{id}")

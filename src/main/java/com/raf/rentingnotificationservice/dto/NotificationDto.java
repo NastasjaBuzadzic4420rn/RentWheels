@@ -5,7 +5,7 @@ public class NotificationDto {
     private String type;
     private String parameters;
     private String text;
-//    private String recever;
+    private String receiver;
 
     public Long getId() {
         return id;
@@ -39,11 +39,11 @@ public class NotificationDto {
         this.text = text;
     }
 
-//    public String getRecever() {
-//        return recever;
-//    }
-//
-//    public void setRecever(String recever) {
-//        this.recever = recever;
-//    }
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 }

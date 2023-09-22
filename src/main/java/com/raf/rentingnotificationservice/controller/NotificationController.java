@@ -18,10 +18,13 @@ public class NotificationController {
 
     private NotificationService notificationService;
 
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     @GetMapping
 //    @CheckSecurity(roles = {"admin"})
     public ResponseEntity<Page<NotificationDto>> getAll(Pageable pageable) {
-
         return new ResponseEntity<>(notificationService.findAll(pageable), HttpStatus.OK);
     }
 

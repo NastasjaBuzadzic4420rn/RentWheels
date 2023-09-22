@@ -46,11 +46,11 @@ public class Notification {
         this.text = text;
     }
 
-//    public String getRecever() {
+//    public String getReceiver() {
 //        return recever;
 //    }
 //
-//    public void setRecever(String recever) {
+//    public void setReceiver(String recever) {
 //        this.recever = recever;
 //    }
 }

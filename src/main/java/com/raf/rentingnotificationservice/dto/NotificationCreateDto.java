@@ -4,7 +4,7 @@ public class NotificationCreateDto {
     private String type;
     private String parameters;
     private String text;
-//    private String recever;
+    private String receiver;
 
     public String getType() {
         return type;
@@ -30,11 +30,11 @@ public class NotificationCreateDto {
         this.text = text;
     }
 
-//    public String getRecever() {
-//        return recever;
-//    }
-//
-//    public void setRecever(String recever) {
-//        this.recever = recever;
-//    }
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 }

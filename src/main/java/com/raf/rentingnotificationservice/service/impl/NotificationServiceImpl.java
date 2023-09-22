@@ -1,7 +1,7 @@
 package com.raf.rentingnotificationservice.service.impl;
 
 import com.raf.rentingnotificationservice.domain.Notification;
-import com.raf.rentingnotificationservice.dto.ReceivedNotifDto;
+import com.raf.rentingnotificationservice.dto.HistoryDto;
 import com.raf.rentingnotificationservice.mapper.exception.NotFoundException;
 import com.raf.rentingnotificationservice.mapper.NotificationMapper;
 import com.raf.rentingnotificationservice.repository.NotificationRepository;
@@ -13,7 +13,6 @@ import com.raf.rentingnotificationservice.dto.NotificationCreateDto;
 import com.raf.rentingnotificationservice.dto.NotificationDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,29 +62,19 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendMail(ReceivedNotifDto receivedNotifDto) {
-        System.out.println(receivedNotifDto.getParameters());
-        List<String> args = List.of(receivedNotifDto.getParameters().split(", "));
+    public void sendMail(NotificationDto notificationDto) {
+        List<String> args = List.of(notificationDto.getParameters().split(", "));
 
-        Notification notification = notificationRepository.findByType(receivedNotifDto.getType()).get();
+        Notification notification = notificationRepository.findByType(notificationDto.getType()).get();
         String message = String.format(notification.getText(), args.toArray());
 
-        System.out.println(message);
-
         HistoryCreateDto historyCreateDto = new HistoryCreateDto();
-        historyCreateDto.setEmailTo(receivedNotifDto.getRecever());
+        historyCreateDto.setEmailTo(notificationDto.getReceiver());
         historyCreateDto.setType(notification.getType());
         historyCreateDto.setText(message);
-        historyService.add(historyCreateDto);
+        HistoryDto historyDto = historyService.add(historyCreateDto);
+        System.out.println(historyDto.toString());
 
-        emailService.sendSimpleMessage(receivedNotifDto.getRecever(), notification.getType(), message);
-
-
-
-
-//        SimpleMailMessage message = new SimpleMailMessage();
-////        message.setTo(activationDto.getEmail());
-//        message.setText(text);
-//        mailSender.send(message);
+        emailService.sendSimpleMessage(notificationDto.getReceiver(), "Activation", message);
     }
 }

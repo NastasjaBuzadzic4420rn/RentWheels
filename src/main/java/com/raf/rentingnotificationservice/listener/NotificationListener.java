@@ -1,7 +1,6 @@
 package com.raf.rentingnotificationservice.listener;
 
-import com.raf.rentingnotificationservice.dto.HistoryCreateDto;
-import com.raf.rentingnotificationservice.dto.ReceivedNotifDto;
+import com.raf.rentingnotificationservice.dto.NotificationDto;
 import com.raf.rentingnotificationservice.listener.helper.MessageHelper;
 import com.raf.rentingnotificationservice.service.NotificationService;
 import org.springframework.jms.annotation.JmsListener;
@@ -23,17 +22,12 @@ public class NotificationListener {
 
     @JmsListener(destination = "${destination.notification}", concurrency = "5-10")
     public void sendNotificationEmail(Message message) throws JMSException{
-        ReceivedNotifDto receivedNotifDto = messageHelper.getMessage(message, ReceivedNotifDto.class);
-
-
-//        ActivationDto activationDto = messageHelper.getMessage(message, ActivationDto.class);
-//        System.out.println(activationDto);
-//        notificationService.add(activationDto)
-//        Notification notification = notificationRepository.findByType("activation").get();
-
-
-        notificationService.sendMail(receivedNotifDto);
-
+        try {
+            NotificationDto notificationDto = messageHelper.getMessage(message, NotificationDto.class);
+            notificationService.sendMail(notificationDto);
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
     }
 
 

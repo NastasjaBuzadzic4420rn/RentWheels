@@ -10,4 +10,5 @@ public class MessageBroker {
         broker.addConnector("tcp://localhost:61616");
         broker.start();
     }
+
 }
