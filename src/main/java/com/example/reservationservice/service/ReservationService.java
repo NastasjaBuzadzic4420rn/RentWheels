@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 public interface ReservationService {
     Page<ReservationDto> findAll(Pageable pageable);
     Page<ReservationDto> findAllByUser(Long id, Pageable pageable);
+    Page<ReservationDto> findAllByCompanyVehicle(Long companyVehicleId, Pageable pageable);
 
     ReservationDto findById(Long id);
 

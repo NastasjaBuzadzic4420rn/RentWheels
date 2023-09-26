@@ -32,6 +32,11 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/byCompanyVehicle/{companyVehicleId}")
+    public ResponseEntity<Page<ReservationDto>> getAllReservationsByCompanyVehicle(@PathVariable("companyVehicleId") Long companyVehicleId, Pageable pageable){
+        return new ResponseEntity<>(reservationService.findAllByCompanyVehicle(companyVehicleId, pageable), HttpStatus.OK);
+    }
+
     @GetMapping("/byUser/{userId}")
     public ResponseEntity<Page<ReservationDto>> getAllReservationsFromUser(@PathVariable("userId") Long userId, Pageable pageable){
         return new ResponseEntity<>(reservationService.findAllByUser(userId, pageable), HttpStatus.OK);

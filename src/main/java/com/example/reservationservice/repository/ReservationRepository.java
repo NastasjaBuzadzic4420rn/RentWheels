@@ -14,4 +14,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Page<Reservation>> findAllByCompanyVehicleIdAndStartDateAndEndDate(Long companyVehicleId, Long startDate, Long endDate, Pageable pageable);
     Optional<Page<Reservation>> findAllByUserId(Long userId, Pageable pageable);
+    Optional<Page<Reservation>> findAllByCompanyVehicleId(Long companyVehicleId, Pageable pageable);
 }

@@ -4,7 +4,6 @@ import com.example.reservationservice.dto.*;
 import com.example.reservationservice.service.CompanyService;
 import com.example.reservationservice.service.CompanyVehicleService;
 import com.example.reservationservice.service.ReservationService;
-import com.example.reservationservice.service.UnavailablePeriodsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +23,12 @@ public class CompanyVehicleController {
 
     private CompanyVehicleService companyVehicleService;
     private CompanyService companyService;
-    private UnavailablePeriodsService unavailablePeriodsService;
+    private ReservationService reservationService;
 
-    public CompanyVehicleController(CompanyVehicleService companyVehicleService, CompanyService companyService, UnavailablePeriodsService unavailablePeriodsService) {
+    public CompanyVehicleController(CompanyVehicleService companyVehicleService, CompanyService companyService, ReservationService reservationService) {
         this.companyVehicleService = companyVehicleService;
         this.companyService = companyService;
-        this.unavailablePeriodsService = unavailablePeriodsService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping
@@ -70,10 +69,10 @@ public class CompanyVehicleController {
         if(filterDto.getStartDate() != null && filterDto.getEndDate() != null){
             for(CompanyVehicleDto vehicle : filteredVehicles){
                 boolean available = true;
-                for(UnavailablePeriodDto period : unavailablePeriodsService.findByCompanyVehicleId(vehicle.getId(), pageable)){
-                    if((period.getStartDate() > filterDto.getStartDate() && period.getStartDate() < filterDto.getEndDate())
-                    || (period.getEndDate() > filterDto.getStartDate() && period.getEndDate() < filterDto.getEndDate())
-                    || (period.getStartDate() < filterDto.getStartDate() && period.getEndDate() > filterDto.getEndDate())){
+                for(ReservationDto reservation : reservationService.findAllByCompanyVehicle(vehicle.getId(), pageable)){
+                    if((reservation.getStartDate() > filterDto.getStartDate() && reservation.getStartDate() < filterDto.getEndDate())
+                    || (reservation.getEndDate() > filterDto.getStartDate() && reservation.getEndDate() < filterDto.getEndDate())
+                    || (reservation.getStartDate() < filterDto.getStartDate() && reservation.getEndDate() > filterDto.getEndDate())){
                         available = false;
                         break;
                     }
