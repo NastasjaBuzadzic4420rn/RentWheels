@@ -3,6 +3,7 @@ package com.example.reservationservice.mapper;
 import com.example.reservationservice.domain.Company;
 import com.example.reservationservice.dto.CompanyCreateDto;
 import com.example.reservationservice.dto.CompanyDto;
+import com.example.reservationservice.dto.CompanyManagerDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,18 +15,15 @@ public class CompanyMapper {
         companyDto.setDescription(company.getDescription());
         companyDto.setNumOfVehicles(company.getNumOfVehicles());
         companyDto.setCity(company.getCity());
-        companyDto.setManagerId(company.getManagerId());
+        companyDto.setApproved(company.isApproved());
         return companyDto;
     }
 
-    public Company createDtoToObject(CompanyCreateDto companyCreateDto){
+    public Company compManDtoToObject(CompanyManagerDto companyManagerDto){
         Company company = new Company();
-        company.setId(companyCreateDto.getId());
-        company.setName(companyCreateDto.getName());
-        company.setDescription(companyCreateDto.getDescription());
-        company.setNumOfVehicles(0);
-        company.setCity(companyCreateDto.getCity());
-        company.setManagerId(companyCreateDto.getManagerId());
+        company.setName(companyManagerDto.getName());
+        company.setDescription(companyManagerDto.getDescription());
+        company.setCity(companyManagerDto.getCity());
         return company;
     }
 

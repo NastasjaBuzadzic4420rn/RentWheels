@@ -17,4 +17,5 @@ public class Company {
     private int numOfVehicles;
     private String city;
     private Long managerId;
+    private boolean approved;
 }

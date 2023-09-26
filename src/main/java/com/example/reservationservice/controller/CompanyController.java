@@ -2,6 +2,7 @@ package com.example.reservationservice.controller;
 
 import com.example.reservationservice.dto.CompanyCreateDto;
 import com.example.reservationservice.dto.CompanyDto;
+import com.example.reservationservice.dto.CompanyManagerDto;
 import com.example.reservationservice.dto.FilterDto;
 import com.example.reservationservice.service.CompanyService;
 import org.springframework.data.domain.Page;
@@ -33,13 +34,19 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<CompanyDto> saveCompany(@RequestBody @Valid CompanyCreateDto companyCreateDto) {
-        return new ResponseEntity<>(companyService.add(companyCreateDto), HttpStatus.CREATED);
+    public ResponseEntity<CompanyDto> saveCompany(@RequestBody @Valid CompanyManagerDto companyManagerDto) {
+        return new ResponseEntity<>(companyService.add(companyManagerDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CompanyDto> editCompany(@PathVariable("id") Long id, @RequestBody CompanyCreateDto companyCreateDto){
         return new ResponseEntity<>(companyService.edit(id, companyCreateDto), HttpStatus.ACCEPTED);
+    }
+
+    //TODO: samo admin moze da pristupi ovoj putanji
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<CompanyDto> approveCompany(@PathVariable("id") Long id){
+        return new ResponseEntity<>(companyService.approve(id), HttpStatus.ACCEPTED);
     }
 
 }

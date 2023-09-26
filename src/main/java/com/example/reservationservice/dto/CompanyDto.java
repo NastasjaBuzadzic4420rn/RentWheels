@@ -15,4 +15,5 @@ public class CompanyDto {
     private String city;
     @JsonProperty("manager_id")
     private Long managerId;
+    private boolean approved;
 }
