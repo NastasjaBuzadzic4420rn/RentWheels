@@ -1,15 +1,18 @@
 package com.example.reservationservice.service.impl;
 
-import com.example.reservationservice.domain.Reservation;
-import com.example.reservationservice.dto.CreateReservationDto;
-import com.example.reservationservice.dto.EditReservationDto;
-import com.example.reservationservice.dto.ReservationDto;
+import com.example.reservationservice.comunication.CreateNotification;
+import com.example.reservationservice.comunication.dto.PointsDto;
+import com.example.reservationservice.domain.*;
+import com.example.reservationservice.dto.*;
 import com.example.reservationservice.exception.NotFoundException;
+import com.example.reservationservice.listener.helper.MessageHelper;
 import com.example.reservationservice.mapper.ReservationMapper;
-import com.example.reservationservice.repository.ReservationRepository;
-import com.example.reservationservice.service.ReservationService;
+import com.example.reservationservice.repository.*;
+import com.example.reservationservice.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +22,29 @@ public class ReservationServiceImpl implements ReservationService {
 
     private ReservationRepository repository;
     private ReservationMapper mapper;
+    private JmsTemplate jmsTemplate;
+    private MessageHelper messageHelper;
+    private String notification;
+    private CreateNotification createNotification;
 
-    public ReservationServiceImpl(ReservationRepository repository, ReservationMapper mapper) {
+    private CompanyVehicleRepository companyVehicleRepository;
+    private VehicleRepository vehicleRepository;
+    private VehicleTypeRepository vehicleTypeRepository;
+    private CompanyRepository companyRepository;
+
+
+
+    public ReservationServiceImpl(ReservationRepository repository, ReservationMapper mapper, JmsTemplate jmsTemplate, MessageHelper messageHelper,@Value("points_destination") String notification, CompanyVehicleRepository companyVehicleRepository, VehicleRepository vehicleRepository, VehicleTypeRepository vehicleTypeRepository, CompanyRepository companyRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.jmsTemplate = jmsTemplate;
+        this.messageHelper = messageHelper;
+        this.notification = notification;
+        this.companyVehicleRepository = companyVehicleRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.vehicleTypeRepository = vehicleTypeRepository;
+        this.companyRepository = companyRepository;
+        this.createNotification = new CreateNotification();
     }
 
     @Override
@@ -36,8 +58,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("Reservations with userId: %d.", userId)));
         return reservations.map(mapper::objectToDto);
-
-
     }
 
     @Override
@@ -57,8 +77,31 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto add(CreateReservationDto createReservationDto) {
+        //Save reservation
         Reservation reservation = mapper.createReservationDtoToObject(createReservationDto);
+        reservation.setActive(true);
+//        reservation.setPriceWithDiscount(companyVehicle.getPrice()*userStatusDto.getDiscount());
         repository.save(reservation);
+
+        //Add points
+        CompanyVehicle companyVehicle = companyVehicleRepository.findById(createReservationDto.getCompanyVehicleId()).get();
+        Vehicle vehicle = vehicleRepository.findById(companyVehicle.getVehicleId()).get();
+        VehicleType vehicleType = vehicleTypeRepository.findById(vehicle.getVehicleTypeId()).get();
+        Company company = companyRepository.findById(companyVehicle.getCompanyId()).get();
+
+        PointsDto pointsDto = new PointsDto();
+        pointsDto.setUserId(createReservationDto.getUserId());
+        pointsDto.setModel(vehicle.getModel());
+        pointsDto.setManufacturer(vehicle.getManufacturer());
+        pointsDto.setType(vehicleType.getName());
+        pointsDto.setStartDate(createReservationDto.getStartDate());
+        pointsDto.setEndDate(createReservationDto.getEndDate());
+        pointsDto.setCompany(company.getName());
+        pointsDto.setCity(company.getCity());
+        pointsDto.setPrice(createReservationDto.getPrice());
+        pointsDto.setAdd(true);
+        jmsTemplate.convertAndSend(this.notification, messageHelper.createTextMessage(pointsDto));
+
         return mapper.objectToDto(reservation);
     }
 
@@ -74,10 +117,32 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto cancel(Long id) {
+        //Cancel reservation
         Reservation reservation = repository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Reservation with id: %s not found.", id)));
         reservation.setActive(false);
         repository.save(reservation);
+
+        //Subtract points
+        CompanyVehicle companyVehicle = companyVehicleRepository.findById(reservation.getCompanyVehicleId()).get();
+        Vehicle vehicle = vehicleRepository.findById(companyVehicle.getVehicleId()).get();
+        VehicleType vehicleType = vehicleTypeRepository.findById(vehicle.getVehicleTypeId()).get();
+        Company company = companyRepository.findById(companyVehicle.getCompanyId()).get();
+
+        PointsDto pointsDto = new PointsDto();
+        pointsDto.setUserId(reservation.getUserId());
+        pointsDto.setModel(vehicle.getModel());
+        pointsDto.setManufacturer(vehicle.getManufacturer());
+        pointsDto.setType(vehicleType.getName());
+        pointsDto.setStartDate(reservation.getStartDate());
+        pointsDto.setEndDate(reservation.getEndDate());
+        pointsDto.setCompany(company.getName());
+        pointsDto.setCity(company.getCity());
+        pointsDto.setPrice(reservation.getPriceWithDiscount());
+        pointsDto.setAdd(false);
+        jmsTemplate.convertAndSend(this.notification, messageHelper.createTextMessage(pointsDto));
+
+
         return mapper.objectToDto(reservation);
     }
 }

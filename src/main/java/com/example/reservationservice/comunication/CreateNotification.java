@@ -1,7 +1,8 @@
 package com.example.reservationservice.comunication;
 
 
-import com.example.reservationservice.dto.CompanyManagerDto;
+import com.example.reservationservice.comunication.dto.NotificationDto;
+import com.example.reservationservice.dto.*;
 
 public class CreateNotification {
 
@@ -14,6 +15,7 @@ public class CreateNotification {
         notificationDto.setParameters(param);
         return  notificationDto;
     }
+
 
 
 }

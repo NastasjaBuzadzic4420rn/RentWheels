@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/companyVehicle")
@@ -95,5 +94,10 @@ public class CompanyVehicleController {
     @PutMapping("/{id}")
     public ResponseEntity<CompanyVehicleDto> editCompanyVehicle(@PathVariable("id") Long id, @RequestBody CompanyVehicleDto companyVehicleDto){
         return new ResponseEntity<>(companyVehicleService.edit(id, companyVehicleDto), HttpStatus.ACCEPTED);
+    }
+
+
+    public CompanyVehicleDto findById(Long id){
+        return companyVehicleService.findById(id);
     }
 }

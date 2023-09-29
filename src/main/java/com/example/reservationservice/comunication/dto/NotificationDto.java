@@ -1,4 +1,4 @@
-package com.example.reservationservice.comunication;
+package com.example.reservationservice.comunication.dto;
 
 public class NotificationDto {
     private Long id;

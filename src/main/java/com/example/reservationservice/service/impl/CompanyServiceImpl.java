@@ -1,7 +1,7 @@
 package com.example.reservationservice.service.impl;
 
 import com.example.reservationservice.comunication.CreateNotification;
-import com.example.reservationservice.comunication.NotificationDto;
+import com.example.reservationservice.comunication.dto.NotificationDto;
 import com.example.reservationservice.domain.Company;
 import com.example.reservationservice.dto.CompanyCreateDto;
 import com.example.reservationservice.dto.CompanyDto;
