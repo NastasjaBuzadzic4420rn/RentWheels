@@ -42,7 +42,8 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     @CheckSecurity(roles = {"admin", "manager"})
-    public ResponseEntity<CompanyDto> editCompany(@PathVariable("id") Long id, @RequestBody CompanyCreateDto companyCreateDto){
+    public ResponseEntity<CompanyDto> editCompany(@RequestHeader("Authorization") String authorization,
+                                                  @PathVariable("id") Long id, @RequestBody CompanyCreateDto companyCreateDto){
         return new ResponseEntity<>(companyService.edit(id, companyCreateDto), HttpStatus.ACCEPTED);
     }
 

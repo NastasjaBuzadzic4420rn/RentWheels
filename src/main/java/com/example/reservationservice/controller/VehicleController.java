@@ -40,13 +40,15 @@ public class VehicleController {
 
     @PostMapping
     @CheckSecurity(roles = {"admin", "manager"})
-    public ResponseEntity<VehicleDto> saveVehicle(@RequestBody @Valid VehicleDto vehicleDto) {
+    public ResponseEntity<VehicleDto> saveVehicle(@RequestHeader("Authorization") String authorization,
+                                                  @RequestBody @Valid VehicleDto vehicleDto) {
         return new ResponseEntity<>(vehicleService.add(vehicleDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @CheckSecurity(roles = {"admin", "manager"})
-    public ResponseEntity<VehicleDto> editVehicle(@PathVariable("id") Long id, @RequestBody VehicleDto vehicleDto){
+    public ResponseEntity<VehicleDto> editVehicle(@RequestHeader("Authorization") String authorization,
+                                                  @PathVariable("id") Long id, @RequestBody VehicleDto vehicleDto){
         return new ResponseEntity<>(vehicleService.edit(id, vehicleDto), HttpStatus.ACCEPTED);
     }
 

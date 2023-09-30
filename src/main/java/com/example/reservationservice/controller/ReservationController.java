@@ -37,31 +37,36 @@ public class ReservationController {
 
     @GetMapping("/byCompanyVehicle/{companyVehicleId}")
     @CheckSecurity(roles = {"client", "manager", "admin"})
-    public ResponseEntity<Page<ReservationDto>> getAllReservationsByCompanyVehicle(@PathVariable("companyVehicleId") Long companyVehicleId, Pageable pageable){
+    public ResponseEntity<Page<ReservationDto>> getAllReservationsByCompanyVehicle(@RequestHeader("Authorization") String authorization,
+                                                                                   @PathVariable("companyVehicleId") Long companyVehicleId, Pageable pageable){
         return new ResponseEntity<>(reservationService.findAllByCompanyVehicle(companyVehicleId, pageable), HttpStatus.OK);
     }
 
     @GetMapping("/byUser/{userId}")
     @CheckSecurity(roles = {"client", "admin"})
-    public ResponseEntity<Page<ReservationDto>> getAllReservationsFromUser(@PathVariable("userId") Long userId, Pageable pageable){
+    public ResponseEntity<Page<ReservationDto>> getAllReservationsFromUser(@RequestHeader("Authorization") String authorization,
+                                                                           @PathVariable("userId") Long userId, Pageable pageable){
         return new ResponseEntity<>(reservationService.findAllByUser(userId, pageable), HttpStatus.OK);
     }
 
     @PostMapping
     @CheckSecurity(roles = {"client", "manager", "admin"})
-    public ResponseEntity<ReservationDto> saveReservation(@RequestBody @Valid CreateReservationDto createReservationDto) {
+    public ResponseEntity<ReservationDto> saveReservation(@RequestHeader("Authorization") String authorization,
+                                                          @RequestBody @Valid CreateReservationDto createReservationDto) {
         return new ResponseEntity<>(reservationService.add(createReservationDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @CheckSecurity(roles = {"client", "manager", "admin"})
-    public ResponseEntity<ReservationDto> editReservation(@PathVariable("id") Long id, @RequestBody EditReservationDto editReservationDto){
+    public ResponseEntity<ReservationDto> editReservation(@RequestHeader("Authorization") String authorization,
+                                                          @PathVariable("id") Long id, @RequestBody EditReservationDto editReservationDto){
         return new ResponseEntity<>(reservationService.edit(id, editReservationDto), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/cancel/{id}")
     @CheckSecurity(roles = {"client", "manager", "admin"})
-    public ResponseEntity<ReservationDto> cancelReservation(@PathVariable("id") Long id){
+    public ResponseEntity<ReservationDto> cancelReservation(@RequestHeader("Authorization") String authorization,
+                                                            @PathVariable("id") Long id){
         return new ResponseEntity<>(reservationService.cancel(id), HttpStatus.ACCEPTED);
     }
 }

@@ -34,13 +34,15 @@ public class VehicleTypeController {
 
     @PostMapping
     @CheckSecurity(roles = {"admin", "manager"})
-    public ResponseEntity<VehicleTypeDto> saveVehicleType(@RequestBody @Valid VehicleTypeDto vehicleTypeDto) {
+    public ResponseEntity<VehicleTypeDto> saveVehicleType(@RequestHeader("Authorization") String authorization,
+                                                          @RequestBody @Valid VehicleTypeDto vehicleTypeDto) {
         return new ResponseEntity<>(vehicleTypeService.add(vehicleTypeDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @CheckSecurity(roles = {"admin", "manager"})
-    public ResponseEntity<VehicleTypeDto> editVehicleType(@PathVariable("id") Long id, @RequestBody VehicleTypeDto vehicleTypeDto){
+    public ResponseEntity<VehicleTypeDto> editVehicleType(@RequestHeader("Authorization") String authorization,
+                                                          @PathVariable("id") Long id, @RequestBody VehicleTypeDto vehicleTypeDto){
         return new ResponseEntity<>(vehicleTypeService.edit(id, vehicleTypeDto), HttpStatus.ACCEPTED);
     }
 }
