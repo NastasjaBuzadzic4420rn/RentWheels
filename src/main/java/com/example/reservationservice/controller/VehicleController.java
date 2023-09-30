@@ -3,6 +3,7 @@ package com.example.reservationservice.controller;
 import com.example.reservationservice.domain.Company;
 import com.example.reservationservice.domain.Vehicle;
 import com.example.reservationservice.dto.*;
+import com.example.reservationservice.security.CheckSecurity;
 import com.example.reservationservice.service.CompanyService;
 import com.example.reservationservice.service.CompanyVehicleService;
 import com.example.reservationservice.service.ReservationService;
@@ -37,14 +38,17 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.findById(id), HttpStatus.OK);
     }
 
-
     @PostMapping
+    @CheckSecurity(roles = {"admin", "manager"})
     public ResponseEntity<VehicleDto> saveVehicle(@RequestBody @Valid VehicleDto vehicleDto) {
         return new ResponseEntity<>(vehicleService.add(vehicleDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity(roles = {"admin", "manager"})
     public ResponseEntity<VehicleDto> editVehicle(@PathVariable("id") Long id, @RequestBody VehicleDto vehicleDto){
         return new ResponseEntity<>(vehicleService.edit(id, vehicleDto), HttpStatus.ACCEPTED);
     }
+
+
 }

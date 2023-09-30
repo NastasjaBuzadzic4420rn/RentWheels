@@ -2,6 +2,7 @@ package com.example.reservationservice.controller;
 
 import com.example.reservationservice.dto.ReservationDto;
 import com.example.reservationservice.dto.VehicleTypeDto;
+import com.example.reservationservice.security.CheckSecurity;
 import com.example.reservationservice.service.VehicleTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,11 +33,13 @@ public class VehicleTypeController {
     }
 
     @PostMapping
+    @CheckSecurity(roles = {"admin", "manager"})
     public ResponseEntity<VehicleTypeDto> saveVehicleType(@RequestBody @Valid VehicleTypeDto vehicleTypeDto) {
         return new ResponseEntity<>(vehicleTypeService.add(vehicleTypeDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity(roles = {"admin", "manager"})
     public ResponseEntity<VehicleTypeDto> editVehicleType(@PathVariable("id") Long id, @RequestBody VehicleTypeDto vehicleTypeDto){
         return new ResponseEntity<>(vehicleTypeService.edit(id, vehicleTypeDto), HttpStatus.ACCEPTED);
     }

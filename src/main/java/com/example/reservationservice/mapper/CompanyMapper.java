@@ -16,6 +16,7 @@ public class CompanyMapper {
         companyDto.setNumOfVehicles(company.getNumOfVehicles());
         companyDto.setCity(company.getCity());
         companyDto.setApproved(company.isApproved());
+        companyDto.setManagerId(company.getManagerId());
         return companyDto;
     }
 

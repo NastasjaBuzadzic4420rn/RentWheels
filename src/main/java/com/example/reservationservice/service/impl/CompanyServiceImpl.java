@@ -95,6 +95,10 @@ public class CompanyServiceImpl implements CompanyService {
                 new NotFoundException(String.format("Company with id: %s not found.", id)));
         company.setApproved(true);
         repository.save(company);
+
+        //Send email
+
+
         return mapper.objectToDto(company);
     }
 }

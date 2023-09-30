@@ -1,6 +1,7 @@
 package com.example.reservationservice.controller;
 
 import com.example.reservationservice.dto.*;
+import com.example.reservationservice.security.CheckSecurity;
 import com.example.reservationservice.service.CompanyService;
 import com.example.reservationservice.service.CompanyVehicleService;
 import com.example.reservationservice.service.ReservationService;
@@ -87,17 +88,14 @@ public class CompanyVehicleController {
     }
 
     @PostMapping
+    @CheckSecurity(roles = {"manager", "admin"})
     public ResponseEntity<CompanyVehicleDto> saveCompanyVehicle(@RequestBody @Valid CompanyVehicleDto companyVehicleDto) {
         return new ResponseEntity<>(companyVehicleService.add(companyVehicleDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity(roles = {"manager", "admin"})
     public ResponseEntity<CompanyVehicleDto> editCompanyVehicle(@PathVariable("id") Long id, @RequestBody CompanyVehicleDto companyVehicleDto){
         return new ResponseEntity<>(companyVehicleService.edit(id, companyVehicleDto), HttpStatus.ACCEPTED);
-    }
-
-
-    public CompanyVehicleDto findById(Long id){
-        return companyVehicleService.findById(id);
     }
 }
