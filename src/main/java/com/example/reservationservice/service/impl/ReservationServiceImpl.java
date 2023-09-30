@@ -4,6 +4,7 @@ import com.example.reservationservice.comunication.CreateNotification;
 import com.example.reservationservice.comunication.dto.PointsDto;
 import com.example.reservationservice.domain.*;
 import com.example.reservationservice.dto.*;
+import com.example.reservationservice.epoch.EpochConverter;
 import com.example.reservationservice.exception.NotFoundException;
 import com.example.reservationservice.listener.helper.MessageHelper;
 import com.example.reservationservice.mapper.ReservationMapper;
@@ -15,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @Transactional
@@ -31,6 +35,7 @@ public class ReservationServiceImpl implements ReservationService {
     private VehicleRepository vehicleRepository;
     private VehicleTypeRepository vehicleTypeRepository;
     private CompanyRepository companyRepository;
+    private EpochConverter epochConverter;
 
 
 
@@ -45,6 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
         this.vehicleTypeRepository = vehicleTypeRepository;
         this.companyRepository = companyRepository;
         this.createNotification = new CreateNotification();
+        this.epochConverter = new EpochConverter();
     }
 
     @Override
@@ -77,10 +83,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto add(CreateReservationDto createReservationDto) {
+        LocalDate startDate = epochConverter.toLocalDate(createReservationDto.getStartDate());
+        LocalDate endDate = epochConverter.toLocalDate(createReservationDto.getEndDate());
+        long days = ChronoUnit.DAYS.between(startDate, endDate);
         //Save reservation
         Reservation reservation = mapper.createReservationDtoToObject(createReservationDto);
         reservation.setActive(true);
-//        reservation.setPriceWithDiscount(companyVehicle.getPrice()*userStatusDto.getDiscount());
+        reservation.setPriceWithDiscount(createReservationDto.getPriceWithDiscount() * days);
         repository.save(reservation);
 
         //Add points
@@ -98,7 +107,7 @@ public class ReservationServiceImpl implements ReservationService {
         pointsDto.setEndDate(createReservationDto.getEndDate());
         pointsDto.setCompany(company.getName());
         pointsDto.setCity(company.getCity());
-        pointsDto.setPrice(createReservationDto.getPrice());
+        pointsDto.setPrice(createReservationDto.getPriceWithDiscount());
         pointsDto.setAdd(true);
         jmsTemplate.convertAndSend(this.notification, messageHelper.createTextMessage(pointsDto));
 

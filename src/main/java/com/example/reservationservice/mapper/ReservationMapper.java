@@ -12,7 +12,7 @@ public class ReservationMapper {
         Reservation reservation = new Reservation();
         reservation.setUserId(createReservationDto.getUserId());
         reservation.setCompanyVehicleId(createReservationDto.getCompanyVehicleId());
-        reservation.setPriceWithDiscount(createReservationDto.getPrice());
+        reservation.setPriceWithDiscount(createReservationDto.getPriceWithDiscount());
         reservation.setStartDate(createReservationDto.getStartDate());
         reservation.setEndDate(createReservationDto.getEndDate());
         reservation.setActive(true);

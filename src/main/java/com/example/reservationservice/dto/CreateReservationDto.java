@@ -11,8 +11,8 @@ public class CreateReservationDto{
         private Long userId;
         @JsonProperty("company_vehicle_id")
         private Long companyVehicleId;
-        @JsonProperty("price")
-        private double price;
+        @JsonProperty("priceP_with_discount")
+        private double priceWithDiscount;
         @JsonProperty("start_date")
         private Long startDate;
         @JsonProperty("end_date")
