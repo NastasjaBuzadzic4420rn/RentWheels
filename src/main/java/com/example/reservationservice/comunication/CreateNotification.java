@@ -16,6 +16,16 @@ public class CreateNotification {
         return  notificationDto;
     }
 
+    public NotificationDto companyApprovedNotification(CompanyManagerDto companyManagerDto){
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setReceiver(companyManagerDto.getEmail());
+        notificationDto.setType("COMPANY_APPROVED");
+        String param = companyManagerDto.getFirstName() + ", " + companyManagerDto.getLastName() + ", " +
+                companyManagerDto.getName() + ", " + companyManagerDto.getCity();
+        notificationDto.setParameters(param);
+        return  notificationDto;
+    }
+
 
 
 }

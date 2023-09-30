@@ -90,14 +90,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto approve(Long id) {
+    public CompanyDto approve(Long id, CompanyManagerDto companyManagerDto) {
         Company company = repository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Company with id: %s not found.", id)));
         company.setApproved(true);
         repository.save(company);
 
-        //Send email
 
+        //Send email
+        NotificationDto notification = createNotification.companyApprovedNotification(companyManagerDto);
+        jmsTemplate.convertAndSend(this.notification, messageHelper.createTextMessage(notification));
 
         return mapper.objectToDto(company);
     }

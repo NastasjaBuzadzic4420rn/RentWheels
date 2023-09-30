@@ -29,7 +29,6 @@ public class ReservationServiceImpl implements ReservationService {
     private JmsTemplate jmsTemplate;
     private MessageHelper messageHelper;
     private String notification;
-    private CreateNotification createNotification;
 
     private CompanyVehicleRepository companyVehicleRepository;
     private VehicleRepository vehicleRepository;
@@ -49,7 +48,6 @@ public class ReservationServiceImpl implements ReservationService {
         this.vehicleRepository = vehicleRepository;
         this.vehicleTypeRepository = vehicleTypeRepository;
         this.companyRepository = companyRepository;
-        this.createNotification = new CreateNotification();
         this.epochConverter = new EpochConverter();
     }
 

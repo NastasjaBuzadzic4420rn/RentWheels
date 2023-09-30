@@ -47,10 +47,11 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.edit(id, companyCreateDto), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/approve/{id}")
+    @PutMapping("/approve/{id}")
     @CheckSecurity(roles = {"admin"})
-    public ResponseEntity<CompanyDto> approveCompany(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id){
-        return new ResponseEntity<>(companyService.approve(id), HttpStatus.ACCEPTED);
+    public ResponseEntity<CompanyDto> approveCompany(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
+                                                     @RequestBody @Valid CompanyManagerDto companyManagerDto){
+        return new ResponseEntity<>(companyService.approve(id, companyManagerDto), HttpStatus.ACCEPTED);
     }
 
 }

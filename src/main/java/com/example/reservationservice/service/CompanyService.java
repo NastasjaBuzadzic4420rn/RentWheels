@@ -19,7 +19,7 @@ public interface CompanyService {
 
     CompanyDto edit(Long id, CompanyCreateDto companyCreateDto);
 
-    CompanyDto approve(Long id);
+    CompanyDto approve(Long id, CompanyManagerDto companyManagerDto);
 
 
 }
