@@ -75,6 +75,6 @@ public class NotificationServiceImpl implements NotificationService {
         HistoryDto historyDto = historyService.add(historyCreateDto);
         System.out.println(historyDto.toString());
 
-        emailService.sendSimpleMessage(notificationDto.getReceiver(), "Activation", message);
+        emailService.sendSimpleMessage(notificationDto.getReceiver(), notificationDto.getType(), message);
     }
 }
